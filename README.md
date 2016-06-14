@@ -6,7 +6,7 @@ both the CLI and GUI, allowing more flexible mail routing (aliases).
 ## Install
 
 To install, clone the repository or download a zip, and run the included
-`install.sh` script, then restart FreeIPA.
+`install.sh` script.
 
 ## License
 
