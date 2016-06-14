@@ -1,7 +1,7 @@
 # FreeIPA mailAlternateAddress plugin
 
-This plugin for FreeIPA adds support for the mailAlternateAddress schema to both
-the CLI and GUI, allowing more flexible mail routing (aliases).
+This plugin for FreeIPA adds support for the mailAlternateAddress attribute to
+both the CLI and GUI, allowing more flexible mail routing (aliases).
 
 ## Install
 
