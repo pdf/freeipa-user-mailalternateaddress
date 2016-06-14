@@ -12,7 +12,7 @@ if [ ! -d /usr/lib/python2.*/site-packages/ipalib/plugins -a ! -d /usr/lib/pytho
 fi
 
 JSPATH="/usr/share/ipa/ui/js/plugins/user_mailalternateaddress"
-if [ -d "/usr/lib/python2.*/site-packages/ipalib/plugins" ] ; then
+if [ -d /usr/lib/python2.*/site-packages/ipalib/plugins ] ; then
 	PYPATH="/usr/lib/python2.*/site-packages/ipalib/plugins"
 else
 	PYPATH="/usr/lib/python2.*/dist-packages/ipalib/plugins"
