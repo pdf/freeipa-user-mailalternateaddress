@@ -24,6 +24,8 @@ sudo cp -v $(dirname $0)/user_mailalternateaddress.js "${JSPATH}/"
 sudo cp -v $(dirname $0)/user_mailalternateaddress.py ${PYPATH}/
 
 # Update default user objectClasses
+echo
+echo "Please enter your kerberos admin credentials to update FreeIPA configuration"
 kinit admin
 objectClasses="$(ipa config-show --raw --all |grep ipaUserObjectClasses |awk '{print "--userobjectclasses="$2}' |tr '\n' ' ')"
 echo "$objectClasses" | grep -i mailrecipient || ipa config-mod $objectClasses --userobjectclasses=mailrecipient
