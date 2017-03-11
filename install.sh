@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 if [ ! -d "/usr/share/ipa/ui/js" ]; then
@@ -6,22 +6,24 @@ if [ ! -d "/usr/share/ipa/ui/js" ]; then
 	exit 1
 fi
 
-if [ ! -d /usr/lib/python2.*/site-packages/ipalib/plugins -a ! -d /usr/lib/python2.*/dist-packages/ipalib/plugins ]; then
+PYSRC="user_mailalternateaddress.py"
+if [ -d /usr/lib/python2.*/site-packages/ipaserver/plugins ] ; then
+	PYPATH="/usr/lib/python2.*/site-packages/ipaserver/plugins"
+	PYSRC="user_mailalternateaddress_4.4.py"
+elif [ -d /usr/lib/python2.*/site-packages/ipalib/plugins ] ; then
+	PYPATH="/usr/lib/python2.*/site-packages/ipalib/plugins"
+elif [ -d /usr/lib/python2.*/dist-packages/ipalib/plugins ] ; then
+	PYPATH="/usr/lib/python2.*/dist-packages/ipalib/plugins"
+else
 	echo "Unable to detect FreeIPA python lib path, manual installation required" 1>&2
 	exit 1
 fi
-
 JSPATH="/usr/share/ipa/ui/js/plugins/user_mailalternateaddress"
-if [ -d /usr/lib/python2.*/site-packages/ipalib/plugins ] ; then
-	PYPATH="/usr/lib/python2.*/site-packages/ipalib/plugins"
-else
-	PYPATH="/usr/lib/python2.*/dist-packages/ipalib/plugins"
-fi
 
 # Install files
 sudo mkdir -p "${JSPATH}"
 sudo cp -v $(dirname $0)/user_mailalternateaddress.js "${JSPATH}/"
-sudo cp -v $(dirname $0)/user_mailalternateaddress.py ${PYPATH}/
+sudo cp -v $(dirname $0)/${PYSRC} ${PYPATH}/user_mailalternateaddress.py
 
 # Update default user objectClasses
 echo
@@ -41,10 +43,11 @@ updateUsers() {
 }
 
 echo
-read -n 1 -r -p "Enable aliases for existing users? [Y/n] " REPLY
-[ -z "$REPLY" ] && REPLY=Y
+read -n 1 -r -p "Enable aliases for existing users? [y/N] " REPLY
 case $REPLY in
 	[yY]) updateUsers ;;
 esac
 
 sudo systemctl restart ipa
+
+[ -d ~/.cache/ipa ] && rm -rf ~/.cache/ipa
