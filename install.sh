@@ -8,12 +8,27 @@ fi
 
 PYSRC="user_mailalternateaddress.py"
 if [ -d /usr/lib/python2.*/site-packages/ipaserver/plugins ] ; then
-	PYPATH="/usr/lib/python2.*/site-packages/ipaserver/plugins"
+	for dir in /usr/lib/python2.* ; do
+		PYPATH="${dir}/site-packages/ipaserver/plugins"
+		break
+	done
+	PYSRC="user_mailalternateaddress_4.4.py"
+elif [ -d /usr/lib/python2.*/dist-packages/ipaserver/plugins ] ; then
+	for dir in /usr/lib/python2.* ; do
+		PYPATH="${dir}/dist-packages/ipaserver/plugins"
+		break
+	done
 	PYSRC="user_mailalternateaddress_4.4.py"
 elif [ -d /usr/lib/python2.*/site-packages/ipalib/plugins ] ; then
-	PYPATH="/usr/lib/python2.*/site-packages/ipalib/plugins"
+	for dir in /usr/lib/python2.* ; do
+		PYPATH="${dir}/site-packages/ipalib/plugins"
+		break
+	done
 elif [ -d /usr/lib/python2.*/dist-packages/ipalib/plugins ] ; then
-	PYPATH="/usr/lib/python2.*/dist-packages/ipalib/plugins"
+	for dir in /usr/lib/python2.* ; do
+		PYPATH="${dir}/dist-packages/ipalib/plugins"
+		break
+	done
 else
 	echo "Unable to detect FreeIPA python lib path, manual installation required" 1>&2
 	exit 1
@@ -22,8 +37,8 @@ JSPATH="/usr/share/ipa/ui/js/plugins/user_mailalternateaddress"
 
 # Install files
 sudo mkdir -p "${JSPATH}"
-sudo cp -v $(dirname $0)/user_mailalternateaddress.js "${JSPATH}/"
-sudo cp -v $(dirname $0)/${PYSRC} ${PYPATH}/user_mailalternateaddress.py
+sudo cp -v "$(dirname $0)/user_mailalternateaddress.js" "${JSPATH}/"
+sudo cp -v "$(dirname $0)/${PYSRC}" "${PYPATH}/user_mailalternateaddress.py"
 
 # Update default user objectClasses
 echo
