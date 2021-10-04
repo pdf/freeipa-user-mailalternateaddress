@@ -7,18 +7,21 @@ if [ ! -d "/usr/share/ipa/ui/js" ]; then
 fi
 
 PYSRC="user_mailalternateaddress.py"
+JSSRC="user_mailalternateaddress.js"
 if [ -d /usr/lib/python[23].*/site-packages/ipaserver/plugins ] ; then
 	for dir in /usr/lib/python[23].* ; do
 		PYPATH="${dir}/site-packages/ipaserver/plugins"
 		break
 	done
 	PYSRC="user_mailalternateaddress_4.6.py"
+	JSSRC="user_mailalternateaddress_4.6.js"
 elif [ -d /usr/lib/python[23].*/dist-packages/ipaserver/plugins ] ; then
 	for dir in /usr/lib/python[23].* ; do
 		PYPATH="${dir}/dist-packages/ipaserver/plugins"
 		break
 	done
 	PYSRC="user_mailalternateaddress_4.6.py"
+	JSSRC="user_mailalternateaddress_4.6.js"
 elif [ -d /usr/lib/python[23].*/site-packages/ipalib/plugins ] ; then
 	for dir in /usr/lib/python[23].* ; do
 		PYPATH="${dir}/site-packages/ipalib/plugins"
@@ -37,7 +40,7 @@ JSPATH="/usr/share/ipa/ui/js/plugins/user_mailalternateaddress"
 
 # Install files
 sudo mkdir -p "${JSPATH}"
-sudo cp -v "$(dirname $0)/user_mailalternateaddress.js" "${JSPATH}/"
+sudo cp -v "$(dirname $0)/${JSSRC}" "${JSPATH}/user_mailalternateaddress.js"
 sudo cp -v "$(dirname $0)/${PYSRC}" "${PYPATH}/user_mailalternateaddress.py"
 
 # Update default user objectClasses
